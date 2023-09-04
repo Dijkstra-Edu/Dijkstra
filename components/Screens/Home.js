@@ -6,6 +6,7 @@ import PostListItems from '../PostListItems';
 import Seperator from '../Seperator';
 import Slider from '../Slider';
 import { getFeaturedPost, getLatestPosts, getSinglePost } from '../../API/post'
+import SplashLoader from '../SplashLoader';
 // import { Icon } from 'react-native-vector-icons/FontAwesome';// <Icon name="rocket" size={30} color="#900" />
 
 const limit = 5;
@@ -17,6 +18,7 @@ export default function Home({ navigation }) {
   const [latestPosts, setLatestPosts] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchFeaturedPost = async () => {
     const { error, posts } = await getFeaturedPost();
@@ -51,7 +53,12 @@ export default function Home({ navigation }) {
   useEffect(() => {
     fetchFeaturedPost();
     fetchLatestPost();
-
+  
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+    
+    // setLoading(false)
     return () => {
       pageNo = 0;
       setReachedToEnd(false);
@@ -88,34 +95,38 @@ export default function Home({ navigation }) {
 
   // return (<Slider onSlidePress={fetchSinglePost} data={featuerdPosts} title="Featured Posts" />);
 
-  return <View>
-    <FocusAwareStatusBar backgroundColor="rgba(255,255,255,1)" barStyle="dark-content"/>
-    <FlatList
-      removeClippedSubviews
-      data={latestPosts}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
-      ListHeaderComponent={Carousel}
-      ItemSeparatorComponent={itemSeparatorComponent}
-      renderItem={memoizedValue}
-      onEndReached={fetchMorePosts}
-      onEndReachedThreshold={0}
-      ListFooterComponent={() => {
-        return reachedToEnd ? (
-          <View>
-            <Text style={{
-              fontWeight: "bold",
-              color: "#383838",
-              textAlign: "center",
-              paddingVertical: 15,
-            }}>
-              You Reached the End!
-            </Text>
-            {/* <Icon name="rocket" size={30} color="#900" /> */}
-          </View>
-        ) : null;
-      }}
-    />
-  </View>
+  if (loading) {
+    return <SplashLoader />
+  } else {
+    return <View>
+      <FocusAwareStatusBar backgroundColor="rgba(255,255,255,1)" barStyle="dark-content" />
+      <FlatList
+        removeClippedSubviews
+        data={latestPosts}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
+        ListHeaderComponent={Carousel}
+        ItemSeparatorComponent={itemSeparatorComponent}
+        renderItem={memoizedValue}
+        onEndReached={fetchMorePosts}
+        onEndReachedThreshold={0}
+        ListFooterComponent={() => {
+          return reachedToEnd ? (
+            <View>
+              <Text style={{
+                fontWeight: "bold",
+                color: "#383838",
+                textAlign: "center",
+                paddingVertical: 15,
+              }}>
+                You Reached the End!
+              </Text>
+              {/* <Icon name="rocket" size={30} color="#900" /> */}
+            </View>
+          ) : null;
+        }}
+      />
+    </View>
+  }
 }
 

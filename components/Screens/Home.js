@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { FlatList, View, Text } from 'react-native';
-
+import Skeleton from '../Skeleton';
 import FocusAwareStatusBar from '../FocusAwareStatusBar'
 import PostListItems from '../PostListItems';
 import Seperator from '../Seperator';
@@ -88,34 +88,36 @@ export default function Home({ navigation }) {
 
   // return (<Slider onSlidePress={fetchSinglePost} data={featuerdPosts} title="Featured Posts" />);
 
-  return <View>
-    <FocusAwareStatusBar backgroundColor="rgba(255,255,255,1)" barStyle="dark-content"/>
-    <FlatList
-      removeClippedSubviews
-      data={latestPosts}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
-      ListHeaderComponent={Carousel}
-      ItemSeparatorComponent={itemSeparatorComponent}
-      renderItem={memoizedValue}
-      onEndReached={fetchMorePosts}
-      onEndReachedThreshold={0}
-      ListFooterComponent={() => {
-        return reachedToEnd ? (
-          <View>
-            <Text style={{
-              fontWeight: "bold",
-              color: "#383838",
-              textAlign: "center",
-              paddingVertical: 15,
-            }}>
-              You Reached the End!
-            </Text>
-            {/* <Icon name="rocket" size={30} color="#900" /> */}
-          </View>
-        ) : null;
-      }}
-    />
-  </View>
+  return <Skeleton></Skeleton>
+
+  // return <View>
+  //   <FocusAwareStatusBar backgroundColor="rgba(255,255,255,1)" barStyle="dark-content"/>
+  //   <FlatList
+  //     removeClippedSubviews
+  //     data={latestPosts}
+  //     keyExtractor={(item) => item.id}
+  //     contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
+  //     ListHeaderComponent={Carousel}
+  //     ItemSeparatorComponent={itemSeparatorComponent}
+  //     renderItem={memoizedValue}
+  //     onEndReached={fetchMorePosts}
+  //     onEndReachedThreshold={0}
+  //     ListFooterComponent={() => {
+  //       return reachedToEnd ? (
+  //         <View>
+  //           <Text style={{
+  //             fontWeight: "bold",
+  //             color: "#383838",
+  //             textAlign: "center",
+  //             paddingVertical: 15,
+  //           }}>
+  //             You Reached the End!
+  //           </Text>
+  //           {/* <Icon name="rocket" size={30} color="#900" /> */}
+  //         </View>
+  //       ) : null;
+  //     }}
+  //   />
+  // </View>
 }
 

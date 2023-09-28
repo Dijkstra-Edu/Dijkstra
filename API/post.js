@@ -1,3 +1,6 @@
+//Production
+//import client from './production.client'
+//Dev
 import client from './client'
 
 export const getFeaturedPost = async () => {

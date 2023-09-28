@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, TextInput, View, Text } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Constants from 'expo-constants'
 import { getSinglePost, searchPost } from '../../API/post';
 import PostListItems from '../PostListItems';
@@ -11,6 +11,13 @@ export default function Search() {
     const [results, setResults] = useState([]);
     const navigation = useNavigation();
     const [notFound, setNotFound] = useState(false);
+
+    useEffect(() => {
+        return navigation.addListener("focus", () => {
+            setResults([]);
+            setQuery('');
+        });
+    }, [navigation]);
 
     const handleOnSubmit = async () => {
         setNotFound(false);
@@ -32,13 +39,14 @@ export default function Search() {
 
     return (
         <View style={styles.container}>
-            <FocusAwareStatusBar backgroundColor="rgba(255,255,255,1)" barStyle="dark-content"/>
+            <FocusAwareStatusBar backgroundColor="rgba(255,255,255,1)" barStyle="dark-content" />
             <TextInput
                 value={query}
                 onChangeText={(text) => setQuery(text)}
                 placeholder='Search'
                 style={styles.searchInput}
-                onSubmitEditing={handleOnSubmit} />
+                onChange={handleOnSubmit}
+            />
 
             <ScrollView contentContainerStyle={{ flex: 1 }}>
                 {notFound

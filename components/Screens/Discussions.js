@@ -4,11 +4,18 @@ import React from 'react'
 
 export default function Discussion() {
     return (
-        <View style={styles.container}>
+        <View>
             <FocusAwareStatusBar backgroundColor="rgba(255,255,255,1)" barStyle="dark-content"/>
-            <Text>Discussions Page (WIP)</Text>
+            <Text style={styles.text}>Coming Soon</Text>
         </View>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create ({
+    text: {
+       color: '#E5E7EB',
+       fontSize: 36,
+       marginTop: 36,
+       textAlign: 'center',
+    },
+ })
